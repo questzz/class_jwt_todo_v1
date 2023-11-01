@@ -1,10 +1,10 @@
 package com.tencoding.todo.repository.entity;
 
-public class TodoEntity {
+import lombok.Data;
 
-	private Integer id; 
+@Data
+public class TodoEntity {
+	private Integer id;
 	private String titie;
-	private boolean comppleted;
-		
-	
+	private boolean completed;
 }

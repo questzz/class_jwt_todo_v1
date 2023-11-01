@@ -1,6 +1,7 @@
 package com.tencoding.todo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.function.ServerRequest.Headers;
 
 import com.tencoding.todo.dto.UserDTO;
 import com.tencoding.todo.repository.entity.UserEntity;
@@ -43,14 +45,19 @@ public class UserController {
 	// 로그인 요청 --> 보안상 이유
 	@PostMapping("/sign-in")
 	public ResponseEntity<?> signin(@RequestBody UserDTO userDTO) {
-
-		UserEntity user = userService.signin(userDTO);
+		// 아이디만 확인 
+		// 비번까지 확인 
+		UserEntity user = userService.signin(userDTO); 
 		// 세션 처리 ---> JWT
 		if(user != null) {
-			// 테스트 
-			String token = jwtUtil.generateToken(user.getEmail(), user.getUserId());
 			
-			return new ResponseEntity<>(user, HttpStatus.OK);
+			String token = jwtUtil.generateToken(user.getEmail(), user.getUserId());
+			// 헤더 셋팅 
+			HttpHeaders headers = new HttpHeaders();
+			// JWT 헤더는 약속 Bearer , 으로 반드시 시작 해야 한다. 
+			headers.add("Authorization", "Bearer " + token);
+			
+			return ResponseEntity.ok().headers(headers).body(user);
 		} else {
 			return new ResponseEntity<>("로그인 실패", HttpStatus.UNAUTHORIZED);
 		}

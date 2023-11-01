@@ -1,6 +1,5 @@
 package com.tencoding.todo.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -31,7 +30,7 @@ public class TodoService {
 
 	public int createTodo(TodoDTO dto) {
 		// 임시 데이터 처리
-		dto.setUserId(1);
+		//dto.setUserId(1);
 		return todoRepository.createTodo(dto);
 	}
 	

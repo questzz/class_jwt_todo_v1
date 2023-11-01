@@ -2,6 +2,7 @@ package com.tencoding.todo.controller;
 
 import java.util.List;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tencoding.todo.dto.ResponseDTO;
 import com.tencoding.todo.dto.TodoDTO;
 import com.tencoding.todo.repository.entity.TodoEntity;
 import com.tencoding.todo.service.TodoService;
@@ -21,12 +23,18 @@ import com.tencoding.todo.service.TodoService;
 @RestController
 @RequestMapping("/todos")
 public class TodoController {
-
+	
 	private final TodoService todoService;
 	
 	@Autowired // 명시적 사용
 	public TodoController(TodoService todoService) {
 		this.todoService = todoService;
+	}
+	
+	@GetMapping("/test")
+	public int todoTeste() {
+		System.out.println("9999999999");
+		return 1;
 	}
 
 	// http://localhost:80/todos/all
@@ -38,19 +46,26 @@ public class TodoController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getTodoById(@PathVariable Integer todoId) {
+	public ResponseDTO<?> getTodoById(@PathVariable Integer todoId) {
 		TodoEntity todo = todoService.readTodById(todoId);
+		
+		ResponseDTO<TodoEntity> responseDto = new ResponseDTO<>();
+		responseDto.setCode(1);
+		responseDto.setMessage("정상처리 되었습니다");
+		responseDto.setData(todo); 
+		
 		if (todo != null) {
-			return new ResponseEntity<>(todo, HttpStatus.OK);
+			return responseDto;
 		} else {
-			return new ResponseEntity<>("null", HttpStatus.INTERNAL_SERVER_ERROR);
+			return responseDto;
 		}
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<?> postTodo(@RequestBody TodoDTO todoDTO) {
-		int result = todoService.createTodo(todoDTO);
-		return new ResponseEntity<>(result, HttpStatus.CREATED);
+	public ResponseEntity<?> postTodo() {
+		System.out.println("11111111111");
+		//int result = todoService.createTodo(todoDTO);
+		return new ResponseEntity<>("TEST", HttpStatus.CREATED);
 	}
 
 	@PutMapping("/update/{id}")

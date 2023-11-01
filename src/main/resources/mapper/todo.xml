@@ -5,7 +5,7 @@
 
     <!-- 모든 Todo 엔터티를 검색하는 쿼리 -->
 	    <select id="findAllList" resultType="com.tencoding.todo.repository.entity.TodoEntity">
-	        SELECT * FROMaaaa todo_tb
+	        SELECT * FROM todo_tb
 	    </select>
 
     <!-- Todo 엔터티를 생성하는 쿼리(Mybatise 조건문 사용해보기) -->
