@@ -15,6 +15,6 @@ public interface TodoRepository {
  public int createTodo(TodoDTO todoDTO);
  public TodoEntity findByIdTodo(Integer todoId);
  public int updateById(@Param("todoId") Integer todoId, @Param("todoDTO") TodoDTO todoDTO);
- public int deleteById(Integer id);
+ public int deleteById(@Param("id") Integer id, @Param("userId") Integer userId);
 	
 }

@@ -43,8 +43,8 @@ public class TodoService {
 		return todoRepository.updateById(todoId, todoDTO);
 	}
 	
-	public int deleteTodoById(Integer id) {
-		return todoRepository.deleteById(id);		
+	public int deleteTodoById(Integer id, Integer userId) {
+		return todoRepository.deleteById(id, userId);		
 	}
 	
 }

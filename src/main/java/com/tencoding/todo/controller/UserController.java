@@ -56,7 +56,7 @@ public class UserController {
 			HttpHeaders headers = new HttpHeaders();
 			// JWT 헤더는 약속 Bearer , 으로 반드시 시작 해야 한다. 
 			headers.add("Authorization", "Bearer " + token);
-			
+			System.out.println("token : " + token);
 			return ResponseEntity.ok().headers(headers).body(user);
 		} else {
 			return new ResponseEntity<>("로그인 실패", HttpStatus.UNAUTHORIZED);

@@ -45,20 +45,32 @@ public class JwtUtil {
 		Jws<Claims> claimsJws = Jwts.parserBuilder()
 				.setSigningKey(key)
 				.build()
-				.parseClaimsJws("userEmail");
+				.parseClaimsJws(token);
 		
 		return claimsJws.getBody().get("userEmail", String.class);
 	}
 	
 	
 	// 유저 정보에서 userId를 뽑는 메서드를 만들어 볼 예정 
-	public String getUserIdFromToken(String token) {
+	public int getUserIdFromToken(String token) {
 		Jws<Claims> claimsJws = Jwts.parserBuilder()
 				.setSigningKey(key)
 				.build()
-				.parseClaimsJws("userId");
+				.parseClaimsJws(token);
 		
-		return claimsJws.getBody().get("userId", String.class);
+		return claimsJws.getBody().get("userId", Integer.class);
+	}
+	
+	// JWT 확인 및 반환 
+	public String hasToken(String authHeader) {
+		String token;
+		if (authHeader != null && authHeader.startsWith("Bearer ")) {
+			token = authHeader.substring(7); // Remove 'Bearer ' prefix
+			System.out.println("create - token " + token);
+			return token;
+		} else {
+			return "";
+		}
 	}
 	
 }
